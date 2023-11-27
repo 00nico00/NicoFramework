@@ -11,6 +11,9 @@ namespace NicoFramework.Editor.View
 {
     public class TreeView : GraphView
     {
+        // Guid 映射到节点
+        public Dictionary<string, NodeView> GuidMapNodeView = new Dictionary<string, NodeView>();
+        
         public new class UxmlFactory : UxmlFactory<TreeView, UxmlTraits>
         {
         }
@@ -36,9 +39,11 @@ namespace NicoFramework.Editor.View
 
         private void CreatNode(Type type, Vector2 position) {
             BtNodeBase nodeData = Activator.CreateInstance(type) as BtNodeBase;
+            nodeData.Guid = System.Guid.NewGuid().ToString();   // 生成唯一标识
             nodeData.NodeName = type.Name;
 
             NodeView node = new NodeView(nodeData);
+            GuidMapNodeView.Add(node.NodeData.Guid, node);
             node.SetPosition(new Rect(position, Vector2.one));
             AddElement(node);
         }

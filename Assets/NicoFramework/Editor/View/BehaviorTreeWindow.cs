@@ -54,6 +54,10 @@ namespace NicoFramework.Editor.View
             }
 
             NodeView nodeView = new NodeView(rootNode);
+            if (rootNode.Guid == null) {
+                rootNode.Guid = System.Guid.NewGuid().ToString();
+            }
+            treeView.GuidMapNodeView.Add(nodeView.NodeData.Guid, nodeView);
             nodeView.SetPosition(new Rect(rootNode.Position, Vector2.one));
             treeView.AddElement(nodeView);
             
@@ -76,6 +80,10 @@ namespace NicoFramework.Editor.View
             }
 
             NodeView nodeView = new NodeView(nodeData);
+            if (nodeData.Guid == null) {
+                nodeData.Guid = System.Guid.NewGuid().ToString();
+            }
+            treeView.GuidMapNodeView.Add(nodeView.NodeData.Guid, nodeView);
             nodeView.SetPosition(new Rect(nodeData.Position, Vector2.one));
             treeView.AddElement(nodeView);
             
