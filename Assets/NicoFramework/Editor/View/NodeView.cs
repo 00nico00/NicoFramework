@@ -42,12 +42,12 @@ namespace NicoFramework.Editor.View
             switch (NodeData) {
                 case BtCompositeNode compositeNode:
                     compositeNode.ChildNodes.ForEach(node => {
-                        treeView.AddElement(PortLink(OutputPort, treeView.GuidMapNodeView[node.Guid].OutputPort));
+                        treeView.AddElement(PortLink(OutputPort, treeView.GuidMapNodeView[node.Guid].InputPort));
                     });
                     break;
                 case BtDecoratorNode decoratorNode:
                     treeView.AddElement(PortLink(OutputPort,
-                        treeView.GuidMapNodeView[decoratorNode.ChildNode.Guid].OutputPort));
+                        treeView.GuidMapNodeView[decoratorNode.ChildNode.Guid].InputPort));
                     break;
             }
         }
