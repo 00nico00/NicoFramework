@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using NicoFramework.Editor.EditorToolEx;
 using NicoFramework.Modules.BehaviorTree;
+using Sirenix.Utilities;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -42,6 +44,8 @@ namespace NicoFramework.Editor.View
             
             // 创建行为树视图
             CreateRoot(iGetBehaviorTree.GetRoot());
+            // 点与点之间连线
+            treeView.nodes.OfType<NodeView>().ForEach(node => node.LinkLines());
         }
 
         /// <summary>

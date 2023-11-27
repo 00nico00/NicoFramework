@@ -30,11 +30,39 @@ namespace NicoFramework.Editor.View
                         typeof(NodeView));
                     break;
             }
+
             inputContainer.Add(InputPort);
             if (OutputPort != null) {
                 outputContainer.Add(OutputPort);
             }
         }
+
+        public void LinkLines() {
+            var treeView = BehaviorTreeWindow.Instance.treeView;
+            switch (NodeData) {
+                case BtCompositeNode compositeNode:
+                    compositeNode.ChildNodes.ForEach(node => {
+                        treeView.AddElement(PortLink(OutputPort, treeView.GuidMapNodeView[node.Guid].OutputPort));
+                    });
+                    break;
+                case BtDecoratorNode decoratorNode:
+                    treeView.AddElement(PortLink(OutputPort,
+                        treeView.GuidMapNodeView[decoratorNode.ChildNode.Guid].OutputPort));
+                    break;
+            }
+        }
+
+        public Edge PortLink(Port inputSocket, Port outputSocket) {
+            var edge = new Edge() {
+                input = inputSocket,
+                output = outputSocket
+            };
+            edge.input?.Connect(edge);
+            edge.output?.Connect(edge);
+
+            return edge;
+        }
+
 
         public override void SetPosition(Rect newPos) {
             // 拖动节点回调也能改变 NodeData 里面的信息
