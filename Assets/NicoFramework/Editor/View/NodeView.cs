@@ -1,5 +1,6 @@
 using NicoFramework.Modules.BehaviorTree;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
 namespace NicoFramework.Editor.View
 {
@@ -33,6 +34,12 @@ namespace NicoFramework.Editor.View
             if (OutputPort != null) {
                 outputContainer.Add(OutputPort);
             }
+        }
+
+        public override void SetPosition(Rect newPos) {
+            // 拖动节点回调也能改变 NodeData 里面的信息
+            base.SetPosition(newPos);
+            NodeData.Position = new Vector2(newPos.xMin, newPos.yMin);
         }
     }
 }

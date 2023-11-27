@@ -23,7 +23,7 @@ namespace NicoFramework.Editor.View
 
         public void CreateGUI() {
             var id = BtSetting.GetSetting().TreeID;
-            var getBehaviorTree = EditorUtility.InstanceIDToObject(id) as IGetBehaviorTree;
+            var iGetBehaviorTree = EditorUtility.InstanceIDToObject(id) as IGetBehaviorTree;
             
             Instance = this;
             // Each editor window contains a root VisualElement object
@@ -35,9 +35,13 @@ namespace NicoFramework.Editor.View
             
             // 获取 TreeView 界面
             treeView = root.Q<TreeView>();
+
+            if (iGetBehaviorTree == null || iGetBehaviorTree.GetRoot() == null) {
+                return;
+            }
             
             // 创建行为树视图
-            CreateRoot(getBehaviorTree.GetRoot());
+            CreateRoot(iGetBehaviorTree.GetRoot());
         }
 
         /// <summary>
@@ -54,13 +58,14 @@ namespace NicoFramework.Editor.View
             treeView.AddElement(nodeView);
             
             // 此处根节点需要特殊处理
+
             
             switch (rootNode) {
                 case BtCompositeNode compositeNode:
                     compositeNode.ChildNodes.ForEach(CreateChild);
                     break;
                 case BtDecoratorNode decoratorNode:
-                    CreateChild(decoratorNode);
+                    CreateChild(decoratorNode.ChildNode);
                     break;
             }
         }
@@ -79,7 +84,7 @@ namespace NicoFramework.Editor.View
                     compositeNode.ChildNodes.ForEach(CreateChild);
                     break;
                 case BtDecoratorNode decoratorNode:
-                    CreateChild(decoratorNode);
+                    CreateChild(decoratorNode.ChildNode);
                     break;
             }
         }
