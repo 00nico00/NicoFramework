@@ -70,7 +70,7 @@ namespace NicoFramework.Editor.View
         }
 
         private void SetRoot(DropdownMenuAction obj) {
-            BtSetting.GetSetting().SetRoot(NodeData);
+            BtSettingSO.GetSetting().SetRoot(NodeData);
         }
 
         public override void SetPosition(Rect newPos) {

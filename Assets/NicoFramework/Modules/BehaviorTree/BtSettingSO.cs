@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace NicoFramework.Modules.BehaviorTree
 {
-    [CreateAssetMenu(menuName = "BehaviorTree/BtSetting")]
-    public class BtSetting : ScriptableObject
+    [CreateAssetMenu(menuName = "BehaviorTree/BtSettingSO")]
+    public class BtSettingSO : ScriptableObject
     {
         public int TreeID;
 
-        public static BtSetting GetSetting() {
-            return Resources.Load<BtSetting>("BtSetting");
+        public static BtSettingSO GetSetting() {
+            return Resources.Load<BtSettingSO>("BtSettingSO");
         }
         
 #if UNITY_EDITOR

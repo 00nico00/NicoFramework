@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bce2ff34f753784999fd025dbbd3774, type: 3}
-  m_Name: BtSetting
+  m_Name: BtSettingSO
   m_EditorClassIdentifier: 
