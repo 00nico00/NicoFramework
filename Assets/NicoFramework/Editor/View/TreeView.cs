@@ -30,6 +30,28 @@ namespace NicoFramework.Editor.View
             styleSheets.Add(
                 AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/NicoFramework/Editor/View/BehaviorTreeWindow.uss"));
             GraphViewMenu();
+            
+            // 添加可视化节点，线改变的回调
+            graphViewChanged += OnGraphViewChanged;
+        }
+
+        private GraphViewChange OnGraphViewChanged(GraphViewChange change) {
+            // 在 treeView 中添加或删除边时添加对应的数据
+            if (change.edgesToCreate != null) {
+                change.edgesToCreate.ForEach(edge => {
+                    edge.AddDataOnLinkLine();
+                });
+            }
+
+            if (change.elementsToRemove != null) {
+                change.elementsToRemove.ForEach(elem => {
+                    if (elem is Edge edge) {
+                        edge.RemoveDataOnUnLinkLine();
+                    }
+                });
+            }
+
+            return change;
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) {
