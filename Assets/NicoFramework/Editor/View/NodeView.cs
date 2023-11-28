@@ -1,6 +1,7 @@
 using NicoFramework.Modules.BehaviorTree;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace NicoFramework.Editor.View
 {
@@ -63,6 +64,14 @@ namespace NicoFramework.Editor.View
             return edge;
         }
 
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) {
+            // base.BuildContextualMenu(evt);
+            evt.menu.AppendAction("SetRoot", SetRoot);
+        }
+
+        private void SetRoot(DropdownMenuAction obj) {
+            BtSetting.GetSetting().SetRoot(NodeData);
+        }
 
         public override void SetPosition(Rect newPos) {
             // 拖动节点回调也能改变 NodeData 里面的信息
