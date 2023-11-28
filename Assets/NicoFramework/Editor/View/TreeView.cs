@@ -33,6 +33,12 @@ namespace NicoFramework.Editor.View
             
             // 添加可视化节点，线改变的回调
             graphViewChanged += OnGraphViewChanged;
+            
+            RegisterCallback<MouseEnterEvent>(MouseEventControl);
+        }
+
+        private void MouseEventControl(MouseEnterEvent evt) {
+            BehaviorTreeWindow.Instance.inspectorView.UpdateViewData();
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange change) {

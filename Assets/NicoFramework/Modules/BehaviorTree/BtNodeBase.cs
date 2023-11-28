@@ -12,6 +12,8 @@ namespace NicoFramework.Modules.BehaviorTree
         InProgress      // 执行中
     }
     
+    [BoxGroup]
+    [HideReferenceObjectPicker]
     public abstract class BtNodeBase
     {
         [FoldoutGroup("@NodeName"), LabelText("唯一标识")]

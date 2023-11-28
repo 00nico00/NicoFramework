@@ -16,6 +16,7 @@ namespace NicoFramework.Editor.View
         public static BehaviorTreeWindow Instance { get; private set; }
 
         public TreeView treeView;
+        public InspectorView inspectorView;
         
         [MenuItem("Window/UI Toolkit/BehaviorTreeWindow")]
         public static void ShowExample()
@@ -37,6 +38,8 @@ namespace NicoFramework.Editor.View
             
             // 获取 TreeView 界面
             treeView = root.Q<TreeView>();
+            // 获取 InspectorView 界面
+            inspectorView = root.Q<InspectorView>();
 
             if (iGetBehaviorTree == null || iGetBehaviorTree.GetRoot() == null) {
                 return;
