@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace NicoFramework.Modules.BehaviorTree
 {
     /// <summary>
     /// 保存行为树窗口上一次打开的位置
     /// </summary>
-    public class GraphViewTransform
+    public class GraphViewTransform : ITransform
     {
-        public Vector3 Position;
-        public Quaternion Rotation;
-        public Vector3 Scale;
-        public Matrix4x4 Matrix;
+        public Vector3 position { get; set; }
+        public Quaternion rotation { get; set; }
+        public Vector3 scale { get; set; }
+        public Matrix4x4 matrix { get; }
     }   
     
     [BoxGroup]

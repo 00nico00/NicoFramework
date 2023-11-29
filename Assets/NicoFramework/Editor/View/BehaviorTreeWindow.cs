@@ -58,14 +58,35 @@ namespace NicoFramework.Editor.View
             CreateRoot(iGetBehaviorTree.GetTreeData().RootNode);
             // 点与点之间连线
             treeView.nodes.OfType<NodeView>().ForEach(node => node.LinkLines());
+            
+            // 加载 treeView 视图定位信息
+            LoadTreeViewTransform();
         }
 
         /// <summary>
         /// 保存当前行为树界面
         /// </summary>
         public void Save() {
+            // 保存当前在行为树窗口中的位置
+            var viewTransform = BtSettingSO.GetSetting().GetTree().GetTreeData().ViewTransform;
+            viewTransform.position = treeView.viewTransform.position;
+            viewTransform.scale = treeView.viewTransform.scale;
+            
             // 保存当前的场景即可
             EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
+        }
+
+        /// <summary>
+        /// 加载保存的视图位置信息，如果没有则新建
+        /// </summary>
+        public void LoadTreeViewTransform() {
+            var treeData = BtSettingSO.GetSetting().GetTree().GetTreeData();
+            if (treeData.ViewTransform == null) {
+                treeData.ViewTransform = new GraphViewTransform();
+            } else {
+                treeView.viewTransform.position = treeData.ViewTransform.position;
+                treeView.viewTransform.scale = treeData.ViewTransform.scale;
+            }
         }
 
         /// <summary>
