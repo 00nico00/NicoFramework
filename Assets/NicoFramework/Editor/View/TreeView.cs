@@ -116,6 +116,11 @@ namespace NicoFramework.Editor.View
                     if (elem is Edge edge) {
                         edge.RemoveDataOnUnLinkLine();
                     }
+                    
+                    // 删除节点之后也在 GuidMapNodeView 中清除相应的 Guid
+                    if (elem is NodeView nodeView) {
+                        GuidMapNodeView.Remove(nodeView.NodeData.Guid);
+                    }
                 });
             }
 
