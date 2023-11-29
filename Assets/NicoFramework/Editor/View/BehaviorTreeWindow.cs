@@ -19,10 +19,9 @@ namespace NicoFramework.Editor.View
 
         public TreeView treeView;
         public InspectorView inspectorView;
-        
+
         [MenuItem("Window/UI Toolkit/BehaviorTreeWindow")]
-        public static void ShowExample()
-        {
+        public static void ShowExample() {
             BehaviorTreeWindow wnd = GetWindow<BehaviorTreeWindow>("BehaviorTreeWindow");
         }
 
@@ -33,26 +32,30 @@ namespace NicoFramework.Editor.View
         public void CreateGUI() {
             var id = BtSettingSO.GetSetting().TreeID;
             var iGetBehaviorTree = EditorUtility.InstanceIDToObject(id) as IGetBehaviorTree;
-            
+
             Instance = this;
             // Each editor window contains a root VisualElement object
             VisualElement root = rootVisualElement;
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/NicoFramework/Editor/View/BehaviorTreeWindow.uxml");
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/NicoFramework/Editor/View/BehaviorTreeWindow.uss");
+            var visualTree =
+                AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
+                    "Assets/NicoFramework/Editor/View/BehaviorTreeWindow.uxml");
+            var styleSheet =
+                AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/NicoFramework/Editor/View/BehaviorTreeWindow.uss");
 
             visualTree.CloneTree(root);
-            
+
             // 获取 TreeView 界面
             treeView = root.Q<TreeView>();
             // 获取 InspectorView 界面
             inspectorView = root.Q<InspectorView>();
 
-            if (iGetBehaviorTree == null || iGetBehaviorTree.GetRoot() == null) {
+            if (iGetBehaviorTree == null || iGetBehaviorTree.GetTreeData() == null ||
+                iGetBehaviorTree.GetTreeData().RootNode == null) {
                 return;
             }
-            
+
             // 创建行为树视图
-            CreateRoot(iGetBehaviorTree.GetRoot());
+            CreateRoot(iGetBehaviorTree.GetTreeData().RootNode);
             // 点与点之间连线
             treeView.nodes.OfType<NodeView>().ForEach(node => node.LinkLines());
         }
@@ -78,13 +81,14 @@ namespace NicoFramework.Editor.View
             if (rootNode.Guid == null) {
                 rootNode.Guid = System.Guid.NewGuid().ToString();
             }
+
             treeView.GuidMapNodeView.Add(nodeView.NodeData.Guid, nodeView);
             nodeView.SetPosition(new Rect(rootNode.Position, Vector2.one));
             treeView.AddElement(nodeView);
-            
+
             // 此处根节点需要特殊处理
 
-            
+
             switch (rootNode) {
                 case BtCompositeNode compositeNode:
                     compositeNode.ChildNodes.ForEach(CreateChild);
@@ -104,10 +108,11 @@ namespace NicoFramework.Editor.View
             if (nodeData.Guid == null) {
                 nodeData.Guid = System.Guid.NewGuid().ToString();
             }
+
             treeView.GuidMapNodeView.Add(nodeView.NodeData.Guid, nodeView);
             nodeView.SetPosition(new Rect(nodeData.Position, Vector2.one));
             treeView.AddElement(nodeView);
-            
+
             switch (nodeData) {
                 case BtCompositeNode compositeNode:
                     compositeNode.ChildNodes.ForEach(CreateChild);
@@ -124,14 +129,14 @@ namespace NicoFramework.Editor.View
         public delegate bool SelectEntryDelegate(SearchTreeEntry searchTreeEntry, SearchWindowContext context);
 
         public SelectEntryDelegate OnSelectEntryHandler;
-         
+
         public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context) {
-            var entries = new List<SearchTreeEntry>();  // 搜索树条目
+            var entries = new List<SearchTreeEntry>(); // 搜索树条目
             entries.Add(new SearchTreeGroupEntry(new GUIContent("Create Node")));
             entries = AddNodeType<BtCompositeNode>(entries, "组合节点");
             entries = AddNodeType<BtDecoratorNode>(entries, "修饰节点");
             entries = AddNodeType<BtActionNode>(entries, "行为节点");
-                
+
             return entries;
         }
 
@@ -147,7 +152,7 @@ namespace NicoFramework.Editor.View
             List<Type> rootNodeTypes = typeof(T).GetDerivedClasses();
             foreach (var rootType in rootNodeTypes) {
                 var menuName = rootType.Name;
-                entries.Add(new SearchTreeEntry(new GUIContent(menuName)) { level = 2, userData = rootType});
+                entries.Add(new SearchTreeEntry(new GUIContent(menuName)) { level = 2, userData = rootType });
             }
 
             return entries;

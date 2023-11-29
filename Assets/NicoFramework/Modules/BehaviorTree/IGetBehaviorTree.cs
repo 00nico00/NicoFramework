@@ -4,7 +4,7 @@ namespace NicoFramework.Modules.BehaviorTree
 {
     public interface IGetBehaviorTree
     {
-        BtNodeBase GetRoot();
+        BehaviorTreeData GetTreeData();
         void SetRoot(BtNodeBase rootData);
     }
 }

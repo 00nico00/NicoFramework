@@ -4,6 +4,25 @@ using UnityEngine;
 
 namespace NicoFramework.Modules.BehaviorTree
 {
+    /// <summary>
+    /// 保存行为树窗口上一次打开的位置
+    /// </summary>
+    public class GraphViewTransform
+    {
+        public Vector3 Position;
+        public Quaternion Rotation;
+        public Vector3 Scale;
+        public Matrix4x4 Matrix;
+    }   
+    
+    [BoxGroup]
+    [HideReferenceObjectPicker]
+    public class BehaviorTreeData
+    {
+        public BtNodeBase RootNode;
+        public GraphViewTransform ViewTransform = new GraphViewTransform();
+    }
+    
     public enum BehaviorState
     {
         NotExecuted,    // 未执行
