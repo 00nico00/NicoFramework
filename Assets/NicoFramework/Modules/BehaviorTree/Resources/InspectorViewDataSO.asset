@@ -27,7 +27,44 @@ MonoBehaviour:
         Assembly-CSharp]], System.Core
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|NicoFramework.Modules.BehaviorTree.SelectorNode, Assembly-CSharp
+    - Name: Guid
+      Entry: 1
+      Data: 44821d0e-4228-46ff-a22e-82d77f5ec5a5
+    - Name: Position
+      Entry: 7
+      Data: UnityEngine.Vector2, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 258
+    - Name: 
+      Entry: 4
+      Data: 117
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: NodeName
+      Entry: 1
+      Data: "\u9009\u62E9\u8282\u70B9"
+    - Name: ChildNodes
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[NicoFramework.Modules.BehaviorTree.BtNodeBase,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
       Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

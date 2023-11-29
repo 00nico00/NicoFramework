@@ -30,6 +30,10 @@ namespace NicoFramework.Editor.View
         }
 
         public void CreateGUI() {
+            InitWindow();
+        }
+
+        public void InitWindow() {
             var id = BtSettingSO.GetSetting().TreeID;
             var iGetBehaviorTree = EditorUtility.InstanceIDToObject(id) as IGetBehaviorTree;
 
