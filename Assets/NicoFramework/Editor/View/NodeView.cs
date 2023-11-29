@@ -42,11 +42,21 @@ namespace NicoFramework.Editor.View
             var treeView = BehaviorTreeWindow.Instance.treeView;
             switch (NodeData) {
                 case BtCompositeNode compositeNode:
+                    // 针对复制粘贴时没有粘贴子节点导致空指针
+                    if (compositeNode.ChildNodes == null) {
+                        return;
+                    }
+                    
                     compositeNode.ChildNodes.ForEach(node => {
                         treeView.AddElement(PortLink(OutputPort, treeView.GuidMapNodeView[node.Guid].InputPort));
                     });
                     break;
                 case BtDecoratorNode decoratorNode:
+                    // 针对复制粘贴时没有粘贴子节点导致空指针
+                    if (decoratorNode.ChildNode == null) {
+                        return;
+                    }
+                    
                     treeView.AddElement(PortLink(OutputPort,
                         treeView.GuidMapNodeView[decoratorNode.ChildNode.Guid].InputPort));
                     break;

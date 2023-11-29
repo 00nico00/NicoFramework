@@ -6,7 +6,9 @@ using NicoFramework.Modules.BehaviorTree;
 using Sirenix.Utilities;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 namespace NicoFramework.Editor.View
@@ -22,6 +24,10 @@ namespace NicoFramework.Editor.View
         public static void ShowExample()
         {
             BehaviorTreeWindow wnd = GetWindow<BehaviorTreeWindow>("BehaviorTreeWindow");
+        }
+
+        private void OnDestroy() {
+            Save();
         }
 
         public void CreateGUI() {
@@ -49,6 +55,14 @@ namespace NicoFramework.Editor.View
             CreateRoot(iGetBehaviorTree.GetRoot());
             // 点与点之间连线
             treeView.nodes.OfType<NodeView>().ForEach(node => node.LinkLines());
+        }
+
+        /// <summary>
+        /// 保存当前行为树界面
+        /// </summary>
+        public void Save() {
+            // 保存当前的场景即可
+            EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
         }
 
         /// <summary>
