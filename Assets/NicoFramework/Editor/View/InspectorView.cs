@@ -37,7 +37,10 @@ namespace NicoFramework.Editor.View
                 .OfType<NodeView>()
                 .Select(nodeView => nodeView.NodeData)
                 .ToHashSet();
-            
+
+            if (ViewData.DataView == null) {
+                ViewData.DataView = new HashSet<BtNodeBase>();
+            }
             ViewData.DataView.Clear();
             foreach (var node in data) {
                 ViewData.DataView.Add(node);
