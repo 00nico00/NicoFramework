@@ -4,10 +4,12 @@ namespace NicoFramework.Editor.View
 {
     public class SplitView : TwoPaneSplitView
     {
-        public new class UxmlFactory : UxmlFactory<SplitView, UxmlTraits> {}
+        public new class UxmlFactory : UxmlFactory<SplitView, UxmlTraits>
+        {
+        }
 
-        public SplitView() {
-        
+        public SplitView()
+        {
         }
     }
 }

@@ -21,19 +21,23 @@ namespace NicoFramework.Editor.View
         public InspectorView inspectorView;
 
         [MenuItem("Window/UI Toolkit/BehaviorTreeWindow")]
-        public static void ShowExample() {
+        public static void ShowExample()
+        {
             BehaviorTreeWindow wnd = GetWindow<BehaviorTreeWindow>("BehaviorTreeWindow");
         }
 
-        private void OnDestroy() {
+        private void OnDestroy()
+        {
             Save();
         }
 
-        public void CreateGUI() {
+        public void CreateGUI()
+        {
             InitWindow();
         }
 
-        public void InitWindow() {
+        public void InitWindow()
+        {
             var id = BtSettingSO.GetSetting().TreeID;
             var iGetBehaviorTree = EditorUtility.InstanceIDToObject(id) as IGetBehaviorTree;
 
@@ -62,7 +66,7 @@ namespace NicoFramework.Editor.View
             CreateRoot(iGetBehaviorTree.GetTreeData().RootNode);
             // 点与点之间连线
             treeView.nodes.OfType<NodeView>().ForEach(node => node.LinkLines());
-            
+
             // 加载 treeView 视图定位信息
             LoadTreeViewTransform();
         }
@@ -70,12 +74,13 @@ namespace NicoFramework.Editor.View
         /// <summary>
         /// 保存当前行为树界面
         /// </summary>
-        public void Save() {
+        public void Save()
+        {
             // 保存当前在行为树窗口中的位置
             var viewTransform = BtSettingSO.GetSetting().GetTree().GetTreeData().ViewTransform;
             viewTransform.position = treeView.viewTransform.position;
             viewTransform.scale = treeView.viewTransform.scale;
-            
+
             // 保存当前的场景即可
             EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
         }
@@ -83,7 +88,8 @@ namespace NicoFramework.Editor.View
         /// <summary>
         /// 加载保存的视图位置信息，如果没有则新建
         /// </summary>
-        public void LoadTreeViewTransform() {
+        public void LoadTreeViewTransform()
+        {
             var treeData = BtSettingSO.GetSetting().GetTree().GetTreeData();
             if (treeData.ViewTransform == null) {
                 treeData.ViewTransform = new GraphViewTransform();
@@ -97,7 +103,8 @@ namespace NicoFramework.Editor.View
         /// 通过根节点创建树
         /// </summary>
         /// <param name="rootNode"></param>
-        public void CreateRoot(BtNodeBase rootNode) {
+        public void CreateRoot(BtNodeBase rootNode)
+        {
             if (rootNode == null) {
                 return;
             }
@@ -124,7 +131,8 @@ namespace NicoFramework.Editor.View
             }
         }
 
-        public void CreateChild(BtNodeBase nodeData) {
+        public void CreateChild(BtNodeBase nodeData)
+        {
             if (nodeData == null) {
                 return;
             }
@@ -155,7 +163,8 @@ namespace NicoFramework.Editor.View
 
         public SelectEntryDelegate OnSelectEntryHandler;
 
-        public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context) {
+        public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
+        {
             var entries = new List<SearchTreeEntry>(); // 搜索树条目
             entries.Add(new SearchTreeGroupEntry(new GUIContent("Create Node")));
             entries = AddNodeType<BtCompositeNode>(entries, "组合节点");
@@ -172,7 +181,8 @@ namespace NicoFramework.Editor.View
         /// <param name="pathName"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public List<SearchTreeEntry> AddNodeType<T>(List<SearchTreeEntry> entries, string pathName) {
+        public List<SearchTreeEntry> AddNodeType<T>(List<SearchTreeEntry> entries, string pathName)
+        {
             entries.Add(new SearchTreeGroupEntry(new GUIContent(pathName)) { level = 1 });
             List<Type> rootNodeTypes = typeof(T).GetDerivedClasses();
             foreach (var rootType in rootNodeTypes) {
@@ -183,7 +193,8 @@ namespace NicoFramework.Editor.View
             return entries;
         }
 
-        public bool OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context) {
+        public bool OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
+        {
             if (OnSelectEntryHandler == null) {
                 return false;
             }

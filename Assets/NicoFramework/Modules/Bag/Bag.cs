@@ -16,13 +16,15 @@ namespace NicoFramework.Modules.Bag
         public int Count => _bagItems.Count;
         public int MaxCapacity { get; set; }
 
-        public Bag(int maxCapacity) {
+        public Bag(int maxCapacity)
+        {
             _bagItemMapById = new Dictionary<string, List<T>>();
             _bagItems = new List<T>();
             MaxCapacity = maxCapacity;
         }
 
-        public Bag(List<T> bagItems) {
+        public Bag(List<T> bagItems)
+        {
             _bagItemMapById = new Dictionary<string, List<T>>();
             _bagItems = bagItems;
             // 将每一个物品都加入 id 索引的字典
@@ -43,7 +45,8 @@ namespace NicoFramework.Modules.Bag
 
         #region CRUD
 
-        public void Add(T item) {
+        public void Add(T item)
+        {
             if (Count >= MaxCapacity) {
                 // 如果添加进的有相同 ID 且符合规范且最终没有超过 item.StackLimit
                 var sameIdItem = GetCanStackItemById(item.Id);
@@ -89,7 +92,8 @@ namespace NicoFramework.Modules.Bag
             }
         }
 
-        public void TakeOut(int index, int takeoutCount) {
+        public void TakeOut(int index, int takeoutCount)
+        {
             var item = GetItemByIndex(index);
             if (item.StackCount < takeoutCount) {
                 Debug.LogError("此格子物品数量不足");
@@ -104,7 +108,8 @@ namespace NicoFramework.Modules.Bag
             OnItemTakeOut?.Invoke();
         }
 
-        public void RemoveById(string id) {
+        public void RemoveById(string id)
+        {
             // 清除字典里面的 Id
             _bagItemMapById.Remove(id);
             // 清除列表里面的 Id
@@ -113,7 +118,8 @@ namespace NicoFramework.Modules.Bag
             OnItemRemove?.Invoke();
         }
 
-        public void RemoveByIndex(int index) {
+        public void RemoveByIndex(int index)
+        {
             if (index < 0 || index >= Count) {
                 return;
             }
@@ -125,11 +131,13 @@ namespace NicoFramework.Modules.Bag
             OnItemRemove?.Invoke();
         }
 
-        public void Clear() {
+        public void Clear()
+        {
             _bagItems.Clear();
         }
 
-        public T GetItemByIndex(int index) {
+        public T GetItemByIndex(int index)
+        {
             if (index < 0 || index >= Count) {
                 Debug.LogError($"Index: {index} 数组越界");
             }
@@ -137,13 +145,15 @@ namespace NicoFramework.Modules.Bag
             return _bagItems[index];
         }
 
-        public List<T> GetItemsById(string id) {
+        public List<T> GetItemsById(string id)
+        {
             List<T> list;
             _bagItemMapById.TryGetValue(id, out list);
             return list;
         }
 
-        public T GetCanStackItemById(string id) {
+        public T GetCanStackItemById(string id)
+        {
             var list = GetItemsById(id);
             if (list == null) {
                 return default(T);
@@ -157,33 +167,39 @@ namespace NicoFramework.Modules.Bag
             return list.Find(item => item.Stackable && item.StackCount == item.StackLimit);
         }
 
-        public List<T> GetAllItems() {
+        public List<T> GetAllItems()
+        {
             return _bagItems;
         }
 
         #endregion
 
-        public void Sort(Func<T, object> sortByProperty) {
+        public void Sort(Func<T, object> sortByProperty)
+        {
             _bagItems = _bagItems.OrderBy(sortByProperty).ToList();
             RefreshItemIndex();
         }
 
-        public List<T> SelectAndOutList(Func<T, bool> filter) {
+        public List<T> SelectAndOutList(Func<T, bool> filter)
+        {
             return _bagItems.Where(filter).ToList();
         }
 
-        public Bag<T> Select(Func<T, bool> filter) {
+        public Bag<T> Select(Func<T, bool> filter)
+        {
             return new Bag<T>(SelectAndOutList(filter));
         }
 
-        public bool CheckItemPropertyLegal(IBagItem item, Func<IBagItem, IComparable> checkByProperty) {
+        public bool CheckItemPropertyLegal(IBagItem item, Func<IBagItem, IComparable> checkByProperty)
+        {
             var property = checkByProperty(item);
             var item2 = GetItemsById(item.Id)[0];
             var property2 = checkByProperty(item2);
             return property.Equals(property2);
         }
 
-        private void RegisterBagItem(T item) {
+        private void RegisterBagItem(T item)
+        {
             item.Index = _bagItems.Count;
             _bagItems.Add(item);
             if (_bagItemMapById.ContainsKey(item.Id)) {
@@ -195,9 +211,11 @@ namespace NicoFramework.Modules.Bag
             OnItemAdd?.Invoke();
         }
 
-        public T this[int index] {
+        public T this[int index]
+        {
             get => GetItemByIndex(index);
-            set {
+            set
+            {
                 if (index < 0 || index >= Count) {
                     Debug.LogError($"Index: {index} 数组越界");
                 } else {
@@ -206,13 +224,15 @@ namespace NicoFramework.Modules.Bag
             }
         }
 
-        private void RefreshItemIndex() {
+        private void RefreshItemIndex()
+        {
             for (int i = 0; i < _bagItems.Count; i++) {
                 _bagItems[i].Index = i;
             }
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             string info = "BagInfo: ";
             for (int i = 0; i < _bagItems.Count; i++) {
                 var item = _bagItems[i];
@@ -223,4 +243,3 @@ namespace NicoFramework.Modules.Bag
         }
     }
 }
-

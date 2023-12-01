@@ -7,10 +7,11 @@ namespace NicoFramework.Modules.BehaviorTree
     {
         public int TreeID;
 
-        public static BtSettingSO GetSetting() {
+        public static BtSettingSO GetSetting()
+        {
             return Resources.Load<BtSettingSO>("BtSettingSO");
         }
-        
+
 #if UNITY_EDITOR
         public IGetBehaviorTree GetTree() => UnityEditor.EditorUtility.InstanceIDToObject(TreeID) as IGetBehaviorTree;
         public void SetRoot(BtNodeBase rootData) => GetTree().SetRoot(rootData);

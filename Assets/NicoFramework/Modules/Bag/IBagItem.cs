@@ -10,6 +10,7 @@ namespace NicoFramework.Modules.Bag
         bool Stackable { get; set; }
         int StackLimit { get; set; }
         int StackCount { get; set; }
+
         /// <summary>
         /// 根据自身属性检查是否符合规范
         /// </summary>
@@ -19,4 +20,3 @@ namespace NicoFramework.Modules.Bag
         bool CheckLegal<T>(IBag<T> bag) where T : IBagItem;
     }
 }
-

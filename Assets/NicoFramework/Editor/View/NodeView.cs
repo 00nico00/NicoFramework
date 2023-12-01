@@ -12,12 +12,14 @@ namespace NicoFramework.Editor.View
         public Port InputPort;
         public Port OutputPort;
 
-        public NodeView(BtNodeBase nodeData) {
+        public NodeView(BtNodeBase nodeData)
+        {
             NodeData = nodeData;
             InitNodeView(nodeData);
         }
 
-        public void InitNodeView(BtNodeBase nodeData) {
+        public void InitNodeView(BtNodeBase nodeData)
+        {
             title = nodeData.NodeName;
             InputPort = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single,
                 typeof(NodeView));
@@ -38,7 +40,8 @@ namespace NicoFramework.Editor.View
             }
         }
 
-        public void LinkLines() {
+        public void LinkLines()
+        {
             var treeView = BehaviorTreeWindow.Instance.treeView;
             switch (NodeData) {
                 case BtCompositeNode compositeNode:
@@ -46,8 +49,9 @@ namespace NicoFramework.Editor.View
                     if (compositeNode.ChildNodes == null) {
                         return;
                     }
-                    
-                    compositeNode.ChildNodes.ForEach(node => {
+
+                    compositeNode.ChildNodes.ForEach(node =>
+                    {
                         treeView.AddElement(PortLink(OutputPort, treeView.GuidMapNodeView[node.Guid].InputPort));
                     });
                     break;
@@ -56,15 +60,17 @@ namespace NicoFramework.Editor.View
                     if (decoratorNode.ChildNode == null) {
                         return;
                     }
-                    
+
                     treeView.AddElement(PortLink(OutputPort,
                         treeView.GuidMapNodeView[decoratorNode.ChildNode.Guid].InputPort));
                     break;
             }
         }
 
-        public Edge PortLink(Port inputSocket, Port outputSocket) {
-            var edge = new Edge() {
+        public Edge PortLink(Port inputSocket, Port outputSocket)
+        {
+            var edge = new Edge()
+            {
                 input = inputSocket,
                 output = outputSocket
             };
@@ -74,16 +80,19 @@ namespace NicoFramework.Editor.View
             return edge;
         }
 
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) {
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
             // base.BuildContextualMenu(evt);
             evt.menu.AppendAction("SetRoot", SetRoot);
         }
 
-        private void SetRoot(DropdownMenuAction obj) {
+        private void SetRoot(DropdownMenuAction obj)
+        {
             BtSettingSO.GetSetting().SetRoot(NodeData);
         }
 
-        public override void SetPosition(Rect newPos) {
+        public override void SetPosition(Rect newPos)
+        {
             // 拖动节点回调也能改变 NodeData 里面的信息
             base.SetPosition(newPos);
             NodeData.Position = new Vector2(newPos.xMin, newPos.yMin);

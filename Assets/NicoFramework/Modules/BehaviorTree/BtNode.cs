@@ -11,8 +11,9 @@ namespace NicoFramework.Modules.BehaviorTree
     public class SequenceNode : BtCompositeNode
     {
         private int _index;
-        
-        public override BehaviorState Tick() {
+
+        public override BehaviorState Tick()
+        {
             var state = ChildNodes[_index].Tick();
             switch (state) {
                 case BehaviorState.Success:
@@ -42,8 +43,9 @@ namespace NicoFramework.Modules.BehaviorTree
     public class SelectorNode : BtCompositeNode
     {
         private int _index;
-        
-        public override BehaviorState Tick() {
+
+        public override BehaviorState Tick()
+        {
             var state = ChildNodes[_index].Tick();
 
             switch (state) {
@@ -74,8 +76,9 @@ namespace NicoFramework.Modules.BehaviorTree
         private float _timer;
 
         private float _currentTimer;
-        
-        public override BehaviorState Tick() {
+
+        public override BehaviorState Tick()
+        {
             _currentTimer += Time.deltaTime;
             if (_currentTimer >= _timer) {
                 _currentTimer = 0f;
@@ -91,10 +94,12 @@ namespace NicoFramework.Modules.BehaviorTree
     {
         [LabelText("是否启用"), SerializeField, FoldoutGroup("@NodeName")]
         private bool _isActive;
+
         [LabelText("启用对象"), SerializeField, FoldoutGroup("@NodeName")]
         private GameObject _particle;
-        
-        public override BehaviorState Tick() {
+
+        public override BehaviorState Tick()
+        {
             _particle.SetActive(_isActive);
             Debug.Log($"{NodeName} 节点" + (_isActive ? "启用了" : "禁用了"));
             return BehaviorState.Success;
@@ -108,8 +113,9 @@ namespace NicoFramework.Modules.BehaviorTree
     {
         [LabelText("是否活动"), SerializeField, FoldoutGroup("@NodeName")]
         private bool _isActive;
-        
-        public override BehaviorState Tick() {
+
+        public override BehaviorState Tick()
+        {
             if (_isActive) {
                 return ChildNode.Tick();
             }

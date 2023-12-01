@@ -10,7 +10,8 @@ namespace NicoFramework.Editor.EditorToolEx
         /// </summary>
         /// <param name="type">基类型</param>
         /// <returns>type 的所有派生类型</returns>
-        public static List<Type> GetDerivedClasses(this Type type) {
+        public static List<Type> GetDerivedClasses(this Type type)
+        {
             List<Type> derivedClasses = new List<Type>();
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {

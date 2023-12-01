@@ -14,7 +14,8 @@ namespace NicoFramework.Tools.ObjectPool
         private bool isNeedGenerate = false;
         private string generateName;
 
-        private void Awake() {
+        private void Awake()
+        {
             if (Instance == null) {
                 Instance = this;
             } else {
@@ -22,7 +23,8 @@ namespace NicoFramework.Tools.ObjectPool
             }
         }
 
-        public GameObject Get(string prefabName, Vector3 position, Quaternion rotation) {
+        public GameObject Get(string prefabName, Vector3 position, Quaternion rotation)
+        {
             var key = prefabName;
 
             // 如果对象池中没有这个物体，则第一次初始化到水位线
@@ -54,7 +56,8 @@ namespace NicoFramework.Tools.ObjectPool
             return obj;
         }
 
-        public void Store(GameObject obj) {
+        public void Store(GameObject obj)
+        {
             var key = obj.name.Replace("(Clone)", string.Empty);
             if (pool.ContainsKey(key)) {
                 pool[key].Add(obj);
@@ -65,16 +68,19 @@ namespace NicoFramework.Tools.ObjectPool
             obj.SetActive(false);
         }
 
-        private void InitializeToWaterLevel(string key) {
+        private void InitializeToWaterLevel(string key)
+        {
             GenerateToPool(key, WaterLevel);
         }
 
-        private void GenerateToWaterLevel(string key) {
+        private void GenerateToWaterLevel(string key)
+        {
             var currCount = pool[key].Count;
             GenerateToPool(key, WaterLevel - currCount);
         }
 
-        private void GenerateToPool(string key, int num) {
+        private void GenerateToPool(string key, int num)
+        {
             for (int i = 0; i < num; i++) {
                 var obj = Instantiate(Resources.Load(key), transform) as GameObject;
                 obj.SetActive(false);
@@ -82,7 +88,8 @@ namespace NicoFramework.Tools.ObjectPool
             }
         }
 
-        private void Update() {
+        private void Update()
+        {
             if (isNeedGenerate) {
                 GenerateToWaterLevel(generateName);
                 isNeedGenerate = false;

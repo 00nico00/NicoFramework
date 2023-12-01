@@ -21,7 +21,8 @@ namespace NicoFramework.Editor.View
         {
         }
 
-        public TreeView() {
+        public TreeView()
+        {
             Insert(0, new GridBackground());
 
             // 关联操纵器
@@ -42,7 +43,8 @@ namespace NicoFramework.Editor.View
             RegisterCallback<KeyDownEvent>(KeyDownEventCallback);
         }
 
-        private void KeyDownEventCallback(KeyDownEvent evt) {
+        private void KeyDownEventCallback(KeyDownEvent evt)
+        {
             if (evt.keyCode == KeyCode.Tab) {
                 evt.StopPropagation();
             }
@@ -74,7 +76,8 @@ namespace NicoFramework.Editor.View
             }
         }
 
-        private void Copy() {
+        private void Copy()
+        {
             copyNodes = selection
                 .OfType<NodeView>()
                 .Select(node => node.NodeData)
@@ -82,7 +85,8 @@ namespace NicoFramework.Editor.View
                 .CloneData();
         }
 
-        private void Paste() {
+        private void Paste()
+        {
             var pasteNodes = new List<NodeView>();
             for (int i = 0; i < copyNodes.Count; i++) {
                 var nodeView = new NodeView(copyNodes[i]);
@@ -91,32 +95,36 @@ namespace NicoFramework.Editor.View
                 AddElement(nodeView);
                 pasteNodes.Add(nodeView);
             }
+
             pasteNodes.ForEach(node => node.LinkLines());
             // 刷新复制的节点数据
             copyNodes = copyNodes.CloneData();
         }
 
-        private void MouseEventControl(MouseEnterEvent evt) {
+        private void MouseEventControl(MouseEnterEvent evt)
+        {
             BehaviorTreeWindow.Instance.inspectorView.UpdateViewData();
         }
 
-        private GraphViewChange OnGraphViewChanged(GraphViewChange change) {
+        private GraphViewChange OnGraphViewChanged(GraphViewChange change)
+        {
             // log
             foreach (var (key, _) in GuidMapNodeView) {
                 UnityEngine.Debug.Log(key);
             }
-            
+
             // 在 treeView 中添加或删除边时添加对应的数据
             if (change.edgesToCreate != null) {
                 change.edgesToCreate.ForEach(edge => { edge.AddDataOnLinkLine(); });
             }
 
             if (change.elementsToRemove != null) {
-                change.elementsToRemove.ForEach(elem => {
+                change.elementsToRemove.ForEach(elem =>
+                {
                     if (elem is Edge edge) {
                         edge.RemoveDataOnUnLinkLine();
                     }
-                    
+
                     // 删除节点之后也在 GuidMapNodeView 中清除相应的 Guid
                     if (elem is NodeView nodeView) {
                         GuidMapNodeView.Remove(nodeView.NodeData.Guid);
@@ -127,12 +135,14 @@ namespace NicoFramework.Editor.View
             return change;
         }
 
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) {
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
             base.BuildContextualMenu(evt);
             // evt.menu.AppendAction("Create Group", CreatNode);
         }
 
-        private void CreatNode(Type type, Vector2 position) {
+        private void CreatNode(Type type, Vector2 position)
+        {
             BtNodeBase nodeData = Activator.CreateInstance(type) as BtNodeBase;
             nodeData.Guid = System.Guid.NewGuid().ToString(); // 生成唯一标识
             nodeData.NodeName = type.Name;
@@ -145,16 +155,19 @@ namespace NicoFramework.Editor.View
 
         #region 右键菜单
 
-        public void GraphViewMenu() {
+        public void GraphViewMenu()
+        {
             var menuWindowProvider = ScriptableObject.CreateInstance<RightClickMenu>();
             menuWindowProvider.OnSelectEntryHandler = OnMenuSelectEntry;
 
-            nodeCreationRequest += context => {
+            nodeCreationRequest += context =>
+            {
                 SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), menuWindowProvider);
             };
         }
 
-        private bool OnMenuSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context) {
+        private bool OnMenuSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
+        {
             var windowRoot = BehaviorTreeWindow.Instance.rootVisualElement;
             // context.screenMousePosition - BehaviorTreeWindow.Instance.position.position
             // 此处是为了使得这个鼠标的位置是相对于 BehaviorTreeWindow 左上角的
@@ -170,7 +183,8 @@ namespace NicoFramework.Editor.View
         #endregion
 
         // 定义顶点连接规则
-        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter) {
+        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+        {
             // 两连接点方向不能相同，不能为同一个顶点
             return ports.Where(endPorts =>
                 endPorts.direction != startPort.direction &&

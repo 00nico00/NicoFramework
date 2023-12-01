@@ -24,7 +24,8 @@
         public int Grade { get; set; }
         public int Star { get; set; }
 
-        public BagItem(string id, string name, BagItemType itemType, int stackCount, int grade, int star) {
+        public BagItem(string id, string name, BagItemType itemType, int stackCount, int grade, int star)
+        {
             Id = id;
             Name = name;
             BagItemType = itemType;
@@ -37,7 +38,8 @@
             }
         }
 
-        public BagItem(BagItem item) {
+        public BagItem(BagItem item)
+        {
             Id = item.Id;
             Name = item.Name;
             BagItemType = item.BagItemType;
@@ -49,7 +51,8 @@
         }
 
 
-        public bool CheckLegal<T>(IBag<T> bag) where T : IBagItem {
+        public bool CheckLegal<T>(IBag<T> bag) where T : IBagItem
+        {
             bool result = true;
             // 检查可堆叠属性是否相同
             result = bag.CheckItemPropertyLegal(this, item => item.Stackable) && result;
@@ -61,7 +64,8 @@
             return result;
         }
 
-        public bool Equals(IBagItem other) {
+        public bool Equals(IBagItem other)
+        {
             return other != null && Id == other.Id;
         }
     }

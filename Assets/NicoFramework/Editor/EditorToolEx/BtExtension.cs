@@ -12,7 +12,8 @@ public static class BtExtension
     /// 在结点连线的时候添加进输入到 NodeView
     /// </summary>
     /// <param name="edge"></param>
-    public static void AddDataOnLinkLine(this Edge edge) {
+    public static void AddDataOnLinkLine(this Edge edge)
+    {
         NodeView inputNode = edge.input.node as NodeView;
         NodeView outputNode = edge.output.node as NodeView;
         switch (outputNode.NodeData) {
@@ -29,7 +30,8 @@ public static class BtExtension
     /// 在结点断开的时候删除数据从 NodeView
     /// </summary>
     /// <param name="edge"></param>
-    public static void RemoveDataOnUnLinkLine(this Edge edge) {
+    public static void RemoveDataOnUnLinkLine(this Edge edge)
+    {
         NodeView inputNode = edge.input.node as NodeView;
         NodeView outputNode = edge.output.node as NodeView;
         switch (outputNode.NodeData) {
@@ -47,10 +49,11 @@ public static class BtExtension
     /// </summary>
     /// <param name="nodes"></param>
     /// <returns></returns>
-    public static List<BtNodeBase> CloneData(this List<BtNodeBase> nodes) {
+    public static List<BtNodeBase> CloneData(this List<BtNodeBase> nodes)
+    {
         byte[] nodeBytes = SerializationUtility.SerializeValue(nodes, DataFormat.Binary);
         var toNodes = SerializationUtility.DeserializeValue<List<BtNodeBase>>(nodeBytes, DataFormat.Binary);
-        
+
         //  删掉未复制的子节点数据，并随机产生新的 Guid
         for (int i = 0; i < toNodes.Count; i++) {
             toNodes[i].Guid = System.Guid.NewGuid().ToString();
@@ -66,6 +69,7 @@ public static class BtExtension
 
                     break;
             }
+
             // 位置向右下偏移
             toNodes[i].Position += Vector2.one * 30;
         }
