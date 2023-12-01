@@ -32,20 +32,41 @@ namespace NicoFramework.Tools.EventCenter
             }
         }
 
-        public void Receive<T>(Action<T> callback)
+        public IDisposable Receive<T>(Action<T> callback)
         {
             Type messageType = typeof(T);
             if (isDispose) {
                 throw new ObjectDisposedException("EventCenter");
             }
+            Action<object> notifier = obj => callback((T)obj);
             lock (notifiers) {
                 if (!notifiers.ContainsKey(messageType)) {
                     notifiers.Add(messageType, new List<Action<object>>());
                 }   
-                notifiers[messageType].Add(obj => callback((T)obj));
+                notifiers[messageType].Add(notifier);
+            }
+
+            return new EventAction(messageType, notifier);
+        }
+
+        public void Remove(Type type, Action<object> callback)
+        {
+            if (isDispose) {
+                throw new ObjectDisposedException("EventCenter");
+            }
+
+            lock (notifiers) {
+                if (!notifiers.ContainsKey(type)) {
+                    return;
+                }
+
+                if (!notifiers[type].Contains(callback)) {
+                    return;
+                }
+
+                notifiers[type].Remove(callback);
             }
         }
-        
         
         public void Dispose()
         {
