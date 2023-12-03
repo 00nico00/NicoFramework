@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using UniRx;
 using UnityEngine;
 
-namespace NicoFramework.Tools.EventCenter.Tigger
+namespace NicoFramework.Tools.EventCenter.Trigger
 {
     public class EventDestroyTrigger : MonoBehaviour
     {
@@ -24,8 +23,7 @@ namespace NicoFramework.Tools.EventCenter.Tigger
 
         public void AddDisposableOnDestroy(IDisposable disposable)
         {
-            if (IsCalledOnDestroy)
-            {
+            if (IsCalledOnDestroy) {
                 disposable.Dispose();
                 return;
             }
@@ -33,6 +31,7 @@ namespace NicoFramework.Tools.EventCenter.Tigger
             if (_disposablesOnDestroy == null) {
                 _disposablesOnDestroy = new List<IDisposable>();
             }
+
             _disposablesOnDestroy.Add(disposable);
         }
     }

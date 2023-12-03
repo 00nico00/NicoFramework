@@ -1,5 +1,5 @@
 ﻿using System;
-using NicoFramework.Tools.EventCenter.Tigger;
+using NicoFramework.Tools.EventCenter.Trigger;
 using UnityEngine;
 
 namespace NicoFramework.Extensions
