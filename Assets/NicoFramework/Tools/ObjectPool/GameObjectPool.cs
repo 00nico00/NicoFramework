@@ -6,6 +6,8 @@ namespace NicoFramework.Tools.ObjectPool
     public sealed class GameObjectPool : MonoBehaviour
     {
         public static GameObjectPool Instance { get; private set; }
+        
+        private GameObjectPool() {}
 
         private Dictionary<string, List<GameObject>> pool = new Dictionary<string, List<GameObject>>();
 
